@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
         <Label Name="MediaElementNameLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="709" Grid.Row="0" />
 
-        <MediaElement MediaOpened="MediaElement1_MediaOpened" Grid.Row="1" MediaFailed="MediaElement1_MediaFailed" LoadedBehavior="Manual" Name="MediaElement1"/>
+        <MediaElement MediaOpened="MediaElement1_MediaOpened" Grid.Row="1" MediaFailed="MediaElement1_MediaFailed" LoadedBehavior="Manual" Name="MediaElementPlayer"/>
 
         <ProgressBar Name="MediaElementProgressBar" Grid.Row="2" ValueChanged="MediaElementProgressBar_OnValueChanged"/>
         <Label Name="ProgressBarLabel" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Height="33" Width="70" />

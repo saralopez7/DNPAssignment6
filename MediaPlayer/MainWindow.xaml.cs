@@ -22,23 +22,30 @@ namespace LAB12
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             fileDialog.ShowDialog();
-            MediaElement1.Source = new Uri(fileDialog.FileName);
-            MediaElement1.Play();
+            MediaElementPlayer.Source = new Uri(fileDialog.FileName);
+            MediaElementPlayer.Play();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaElement1.Play();
+            // The Play method will begin the media if it is not currently active or 
+            // resume media if it is paused. This has no effect if the media is
+            // already running.
+            MediaElementPlayer.Play();
         }
 
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaElement1.Pause();
+            // The Pause method pauses the media if it is currently running.
+            // The Play method can be used to resume.
+            MediaElementPlayer.Pause();
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaElement1.Stop();
+            // The Stop method stops and resets the media to be played from
+            // the beginning.
+            MediaElementPlayer.Stop();
         }
 
         private void MediaElement1_MediaFailed(object sender, ExceptionRoutedEventArgs e)
@@ -65,7 +72,7 @@ namespace LAB12
             _timer.Start();
 
             // Update progress bar
-            var position = MediaElement1.NaturalDuration.HasTimeSpan ? MediaElement1.NaturalDuration.TimeSpan : TimeSpan.FromSeconds(0);
+            var position = MediaElementPlayer.NaturalDuration.HasTimeSpan ? MediaElementPlayer.NaturalDuration.TimeSpan : TimeSpan.FromSeconds(0);
             MediaElementProgressBar.Minimum = 0;
             MediaElementProgressBar.Maximum = position.TotalSeconds;
 
@@ -86,7 +93,7 @@ namespace LAB12
 
         void OnTimerTick(object sender, EventArgs e)
         {
-            MediaElementProgressBar.Value = MediaElement1.Position.TotalSeconds;
+            MediaElementProgressBar.Value = MediaElementPlayer.Position.TotalSeconds;
         }
 
         private void MediaElementProgressBar_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
