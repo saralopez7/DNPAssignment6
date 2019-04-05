@@ -1,0 +1,120 @@
+﻿<Window x:Class="LAB12.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Media Player" Height="600" Width="800" WindowStartupLocation="CenterScreen" >
+
+    <Window.Resources>
+        <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="81" />
+            <Setter Property="Height" Value="41" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Margin" Value="10,10,10,10" />
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="imageStyle" TargetType="{x:Type Image}">
+            <Setter Property="Width" Value="19" />
+            <Setter Property="Height" Value="26" />
+        </Style>
+        
+        <BitmapImage x:Key="OpenImage" UriSource="Images/open.png"/>
+        <BitmapImage x:Key="PlayImage" UriSource="Images/play.png"/>
+        <BitmapImage x:Key="StopImage" UriSource="Images/stop.png"/>
+        <BitmapImage x:Key="PauseImage" UriSource="Images/pause.png"/>
+    </Window.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18*" />
+            <RowDefinition Height="241*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="18*"/>
+        </Grid.RowDefinitions>
+        <Label Name="MediaElementNameLabel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="709" Grid.Row="0" />
+
+        <MediaElement MediaOpened="MediaElement1_MediaOpened" Grid.Row="1" MediaFailed="MediaElement1_MediaFailed" LoadedBehavior="Manual" Name="MediaElement1"/>
+
+        <ProgressBar Name="MediaElementProgressBar" Grid.Row="2" ValueChanged="MediaElementProgressBar_OnValueChanged"/>
+        <Label Name="ProgressBarLabel" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Height="33" Width="70" />
+
+        <ToolBar Grid.Row="3" Name="ToolBar1" Grid.RowSpan="2">
+            <Button Name="OpenButton" Style="{StaticResource buttonStyle}" Click="OpenButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{DynamicResource OpenImage}"  Style="{StaticResource imageStyle}"/>
+                    <TextBlock Width="44" TextAlignment="Center" VerticalAlignment="Center">
+                    <Run Text="Open" />
+                    </TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Name="PlayButton" Style="{StaticResource buttonStyle}" Click="PlayButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{DynamicResource PlayImage}" Style="{StaticResource imageStyle}"/>
+                    <TextBlock Width="44" TextAlignment="Center" VerticalAlignment="Center">
+                    <Run Text="Play" />
+                    </TextBlock>
+                </StackPanel>
+                <!-- Create Rotate transform animation clockwise that repeats twice-->
+                <Button.RenderTransform>
+                    <RotateTransform x:Name="PlayButtonTransform" Angle="0" />
+                </Button.RenderTransform>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                Storyboard.TargetName="PlayButtonTransform"
+                                Storyboard.TargetProperty="(RotateTransform.Angle)"
+                                To="360" Duration="0:0:1" RepeatBehavior="2x"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Name="PauseButton" Style="{StaticResource buttonStyle}" Click="PauseButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{DynamicResource PauseImage}" Style="{StaticResource imageStyle}"/>
+                    <TextBlock Width="44" TextAlignment="Center" VerticalAlignment="Center">
+                    <Run Text="Pause" />
+                    </TextBlock>
+                </StackPanel>
+                <Button.Triggers>
+                    <!-- Animates the width of the pause button from 200 to 300. -->
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="PauseButton"
+                                      Storyboard.TargetProperty="Width"
+                                      From="200" To="81" Duration="0:0:2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Name="StopButton" Style="{StaticResource buttonStyle}" Click="StopButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{DynamicResource StopImage}" Style="{StaticResource imageStyle}"/>
+                    <TextBlock Width="44" TextAlignment="Center" VerticalAlignment="Center">
+                    <Run Text="Stop" />
+                    </TextBlock>
+                </StackPanel>
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <!-- Fade in and out animation using a StoryBoard-->
+                                <DoubleAnimation
+                                Storyboard.TargetName="StopButton"
+                                Storyboard.TargetProperty="(Button.Opacity)"
+                                From="1" To="0" Duration="0:0:1" AutoReverse="True" RepeatBehavior="2x"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+        </ToolBar>
+    </Grid>
+</Window>
